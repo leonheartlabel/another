@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+
+  Hi {{ user.username }}!
+  <p><a href="/post">Create New Post</a></p>
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
+
+  
+  <table>
+    <caption>Table Admin</caption>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Image</th>
+        <th>Price</th>
+        <th>Edit</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for post in object_list %}
+      <tr>
+        <td>{{ post.title }}</td>
+        <td><img style="with: 50px; height: 50px;" src="{{ post.cover.url}}" alt="{{ post.title }}"></td>
+        <td>{{ post.price }} Pesos</td>
+        <td><a href="update/{{post.id}}">Edit</a></td>
+      </tr>
+      {% endfor %} 
+    </tbody>
+  </table>
+  
+
+
+{% comment %} <h2>{{ post.title }}</h2>
+<img src="{{ post.cover.url}}" alt="{{ post.title }}"> {% endcomment %}
+
+{% comment %} <p>{{% url post.id %}}</p> {% endcomment %}
+
+{% comment %} <p><a href="update/{{post.id}}">Edit</a></p>
+<p><a href="delete/{{post.id}}">Delete</a></p> {% endcomment %}
+
+
+  
+
+{% else %}
+
+
+<p>You are not logged in</p>
+<a href="{% url 'signup' %}">Signup</a>
+<br>
+<a href="{% url 'login' %}">Log In</a>
+
+
+
+<h1>Nuestro Catalogo</h1>
+
+
+<div style="display:flex;gap:20px;flex-wrap: wrap;white-space: wrap;overflow-wrap: wrap;">
+
+{% for post in object_list %}
+<a href="{% url 'view_post' post.pk %}" style="color: var(--text);text-decoration: none;padding: 20px;width:200px; border: 1px solid white; border-radius: 5px;background-color: ">
+
+
+  <h4 style="margin: 1px;">{{ post.title }}</h2>
+  {% comment %} {% load tz %} {% endcomment %}
+  {% comment %} <small>Published on {{ post.created_at|timezone:"America/Bogota"|date:"SHORT_DATETIME_FORMAT" }}</small> {% endcomment %}
+  {% comment %} <br> {% endcomment %}
+  <img style="width: 250px; height: 200px;" src="{{ post.cover.url}}" alt="{{ post.title }}">
+  {% comment %} {{% if post.body != "NO CONTEXT"%}} {% endcomment %}
+  
+  
+  {% comment %} <p style="--max-lines: 3; display:-webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 4;width: 200px;overflow: hidden;white-space: wrap" >{{post.body}}</p> {% endcomment %}
+  <p style="margin: 1px;">El precio es: <b>{{post.price}}</b> Pesos</p>
+  </a>
+
+
+
+{% comment %} <p>{{% url post.id %}}</p> {% endcomment %}
+
+  {% comment %} <p><a href="update/{{post.id}}">Edit</a></p> {% endcomment %}
+
+
+  {% endfor %} 
+</div>
+{% endif %}
+{% endblock %}
+
+
+
+{% comment %} <h1>Django Image Uploading</h1>
+<ul>
+  {% for post in object_list %}
+    <h2>{{ post.title }}</h2>
+    <img src="{{ post.cover.url}}" alt="{{ post.title }}">
+  {% endfor %}
+</ul> {% endcomment %}

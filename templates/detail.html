@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+    {{post.title}}
+    <hr>
+    <img style="width: 200px; height: 200px;" src="{{ post.cover.url}}" alt="{{ post.title }}">
+    <hr>
+
+    {{post.body}}
+    <hr>
+    {{post.price}}
+{% endblock %}
